@@ -8,7 +8,7 @@ This repository dives into five different logging patterns:
 * **Containerize**: Keep track of short-lived containers and configure their logging correctly.
 * **Orchestrate**: Stay on top of your logs even when services are short lived and dynamically allocated on Kubernetes.
 
-The [slides for this talk are available on Speaker Deck](https://speakerdeck.com/xeraa/centralized-logging-patterns).
+The [slides for this talk are available on my website](https://xeraa.net/talks/centralized-php-logging-patterns/).
 
 
 ## Dependencies
@@ -45,7 +45,7 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.0
    but we are sticking to our manual rules for now.
 1. Find the log statements in Kibana's Discover view for the *parse* index.
 1. Show the pipeline in Kibana's Monitoring view and the other components in Monitoring.
-1. Create a vertical bar chart visualization on the `level` field. Further break it down into `session`.
+1. Create a vertical bar chart visualization on the `log.level` field.
 
 
 ### Send
@@ -64,7 +64,6 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.0
 
 1. Show the metadata we are collecting now.
 1. Point to the ingest pipeline and show how everything is working.
-1. See why we needed the grok failure rule, because of the startup error from sending to Logstash directly.
 1. Filter to down to `container.name : "php_app"` and point out the hinting that stops the multiline statements from being broken up.
 1. Point out how you could break up the output into two indices — *docker-\** and *docker-php-\**.
 1. Show the new Logs UI (adapt the pattern to match the right index).

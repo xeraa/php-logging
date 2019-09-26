@@ -67,7 +67,6 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.0
 1. Show the metadata we are collecting now.
 1. Point to the ingest pipeline and show how everything is working.
 1. See why we needed the grok failure rule, because of the startup error from sending to Logstash directly.
-1. Filter to down to `container.name : "java_app"` and point out the hinting that stops the multiline statements from
-   being broken up.
-1. Point out how you could break up the output into two indices — *docker-\** and *docker-java-\**.
+1. Filter to down to `container.name : "php_app"` and point out the hinting that stops the multiline statements from being broken up.
+1. Point out how you could break up the output into two indices — *docker-\** and *docker-php-\**.
 1. Show the new Logs UI (adapt the pattern to match the right index).

@@ -13,7 +13,7 @@ The [slides for this talk are available on Speaker Deck](https://speakerdeck.com
 
 ## Dependencies
 
-Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.8.5 install` before everything else to fetch the dependencies (or `update` if you have run it before).
+Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.0 install` before everything else to fetch the dependencies (or `update` if you have run it before).
 
 
 ## Usage

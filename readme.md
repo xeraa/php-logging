@@ -19,7 +19,7 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.0
 ## Usage
 
 * Bring up the Elastic Stack: `$ docker-compose up --build`
-* Rerun the Java application to generate more logs: `$ docker restart <ID of the PHP app>`
+* Rerun the Java application to generate more logs: `$ docker restart php_app`
 * Remove the Elastic Stack and its volumes: `$ docker-compose down -v`
 
 

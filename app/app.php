@@ -5,37 +5,56 @@ require_once __DIR__."/vendor/autoload.php";
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
+use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
+use Monolog\Formatter\LogstashFormatter;
+use Monolog\ElasticLogstashHandler;
 use Monolog\Formatter\JsonFormatter;
+
+
 
 // Create the logger
 $logger = new Logger('app_logger');
 
 // Create the log line handler
-// the default date format is "Y-m-d H:i:s"
+// The default date format is "Y-m-d H:i:s"
 $dateFormat = "Y-m-d H:i:s";
-// the default output format is "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n"
+
+// The default output format is "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n"
 $output = "[%datetime%] %extra% %channel%.%level_name%: %message% %context%\n";
+
 // Create the formatter and allow line breaks, and discard empty brackets in the end
 $lineFormatter = new LineFormatter($output, $dateFormat, true, true);
 $lineStream = new StreamHandler(__DIR__.'/logs/app.log', Logger::DEBUG);
 $lineStream->setFormatter($lineFormatter);
 
+// Create the Elasticsearch handler
+/** Too much coupling — we're skipping this one
+$elasticsearchClient = ClientBuilder::create()->setHosts(['http://elasticsearch:9200'])->build();
+$logstashFormatter = new LogstashFormatter('app', null, null, '', 1); //$applicationName, $systemName (default hostname), $extraPrefix, $contextPrefix, $version
+$elasticsearchHandler = new ElasticLogstashHandler($elasticsearchClient, ['index' => 'send']);
+$elasticsearchHandler->setFormatter($logstashFormatter);
+**/
+
 // Create the JSON handler
 $jsonFormatter = new JsonFormatter();
 $jsonStream = new StreamHandler(__DIR__ . '/logs/app.json', Logger::DEBUG);
-$jsonStream->setFormatter($jsonFormatter, $dateFormat, false, true);
+$jsonStream->setFormatter($jsonFormatter, $dateFormat, false, true); //$includeStacktraces, $appendNewline
 
 // Now add some handlers
 $logger->pushHandler($lineStream);
+//$logger->pushHandler($elasticsearchHandler);
 $logger->pushHandler($jsonStream);
 $logger->pushHandler(new StreamHandler('php://stdout', Logger::DEBUG));
 
 // Add some extra info when logging
-// Don't use MemoryUsageProcessor because it returns MB
+// Don't use MemoryUsageProcessor because it returns it with a unit (MB) and we want the raw number
 $logger->pushProcessor(function ($entry) {
     $entry['extra']['memory'] = memory_get_usage();
     return $entry;
 });
+
+
 
 // Application
 for($i=1; $i<=20; $i++) {

@@ -16,6 +16,10 @@ output.elasticsearch:
   #  - index: "docker-php-%{+yyyy.MM}-00"
   #    when.contains:
   #      container.name: "php_app"
+  pipelines:
+    - pipeline: "parse_php"
+      when.contains:
+        container.name: "php_app"
 
 setup:
   ilm:

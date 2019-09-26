@@ -1,0 +1,12 @@
+{
+  "description" : "Parse PHP log lines",
+  "processors": [
+    {
+      "grok": {
+        "field": "message",
+        "patterns": [ "^\\[%{TIMESTAMP_ISO8601:timestamp}\\]%{SPACE}\\{\\\"%{WORD}\\\":%{NUMBER:memory_usage}\\}%{SPACE}%{WORD:log.method}%{SPACE}\\.%{LOGLEVEL:log.level}%{SPACE}:%{SPACE}%{GREEDYDATA:message}(?:\\n+(?<stacktrace>(?:.|\\r|\\n)+))?" ],
+        "ignore_failure": true
+      }
+    }
+  ]
+}

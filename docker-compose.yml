@@ -157,6 +157,7 @@ services:
     container_name: configure_stack
     volumes:
       - './docker-compose/setup.sh:/usr/local/bin/setup.sh:ro'
+      - './docker-compose/setup_ingest-pipeline_parse-php.json:/usr/local/bin/setup_ingest-pipeline_parse-php.json:ro'
     command: '/usr/local/bin/setup.sh'
     networks:
       - stack

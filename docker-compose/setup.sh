@@ -16,6 +16,10 @@ done
 curl -f -XPUT -H "Content-Type: application/json" "$ELASTICSEARCH/_template/general" \
   -d '{ "index_patterns": ["*"], "settings": { "number_of_shards": 1, "number_of_replicas": 0 } }'
 
+# Add an ingest pipeline
+curl -f -XPUT -H "Content-Type: application/json" "$ELASTICSEARCH/_ingest/pipeline/parse_php" \
+  -d @/usr/local/bin/setup_ingest-pipeline_parse-php.json
+
 # Wait for Kibana to start up before continuing
 until $(curl --output /dev/null --silent $KIBANA)
 do

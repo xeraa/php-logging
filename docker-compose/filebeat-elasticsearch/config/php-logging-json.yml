@@ -1,0 +1,8 @@
+- type: log
+  paths:
+    - /mnt/logs/*.json
+  json:
+    message_key: message
+    keys_under_root: true
+  fields:
+    environment: production

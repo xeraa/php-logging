@@ -1,0 +1,37 @@
+filebeat.registry.path: /usr/share/filebeat/data/registry
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+processors:
+  - add_host_metadata: ~
+  - add_docker_metadata: ~
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  index: "docker"
+  #indices:
+  #  - index: "docker-php-%{+yyyy.MM}-00"
+  #    when.contains:
+  #      container.name: "php_app"
+
+setup:
+  ilm:
+    enabled: true
+    rollover_alias: "docker"
+    pattern: "{now/M{yyyy.MM}}-00"
+  template:
+    pattern: "docker"
+    name: "docker"
+    settings.index:
+      number_of_shards: 1
+      number_of_replicas: 0
+
+logging.to_files: true
+
+xpack.monitoring:
+  enabled: true
+  elasticsearch: ~
+

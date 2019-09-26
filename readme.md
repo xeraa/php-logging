@@ -19,7 +19,7 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.0
 ## Usage
 
 * Bring up the Elastic Stack: `$ docker-compose up --build`
-* Rerun the Java application to generate more logs: `$ docker restart php_app`
+* Rerun the PHP application to generate more logs: `$ docker restart php_app`
 * Remove the Elastic Stack and its volumes: `$ docker-compose down -v`
 
 
@@ -32,13 +32,12 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.0
 
 ### Parse
 
-1. How many log events should we have? 40. But we have 42 entries instead. Even though 42 would be the perfect number,
-   here it's not.
+1. How many log events should we have? 40. But we have 43 entries instead. Since only 42 would be the perfect number, something is wrong here.
 1. See the `_grokparsefailure` in the tag field. Enable the multiline rules in Filebeat. It should automatically
    refresh and when you run the application again, it should now only collect 40 events.
 1. Show that this works as expected now and drill down to the errors to see which emoji we are logging.
 1. Copy a log line and parse it with the Grok Debugger in Kibana, for example, with the pattern
-   `^\[%{TIMESTAMP_ISO8601:timestamp}\]%{SPACE}%{LOGLEVEL:level}` — show
+   `^\[%{TIMESTAMP_ISO8601:timestamp}\]%{SPACE}\{"memory":%{NUMBER:memory}` — show
    [https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/grok-patterns](https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/grok-patterns)
    to get started. We can copy the rest of the pattern from *logstash.conf*.
 1. Point to [https://github.com/elastic/ecs](https://github.com/elastic/ecs) for the naming conventions.
@@ -51,9 +50,8 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.0
 
 ### Send
 
-1. Show that the logs are missing from the first run, since no connection to Logstash had been established yet.
-1. Rerun the application and see it works now. And we have already seen the main downside of this approach.
-1. Finally, you would need to rename the fields to match ECS in a Logstash filter.
+1. Describe how the logs would be missing from the first run, since no connection to Elasticsearch would have been established yet.
+1. Skip the approach after discussing its downsides.
 
 
 ### Structure
@@ -70,3 +68,8 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.0
 1. Filter to down to `container.name : "php_app"` and point out the hinting that stops the multiline statements from being broken up.
 1. Point out how you could break up the output into two indices — *docker-\** and *docker-php-\**.
 1. Show the new Logs UI (adapt the pattern to match the right index).
+
+
+### Todo
+
+* Monolog 2

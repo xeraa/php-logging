@@ -1,6 +1,6 @@
 {
     "require": {
-        "monolog/monolog": "1.25.1",
+        "monolog/monolog": "2.0.0",
         "elasticsearch/elasticsearch": "7.2.2"
     }
 }

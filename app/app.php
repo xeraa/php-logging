@@ -79,7 +79,7 @@ for($i=1; $i<=20; $i++) {
     } else if ($i % 5 == 0){
         $logger->error("Investigate tomorrow\nNot that urgent");
     } else if ($i % 3 == 0){
-        $logger->warn("Collect in production");
+        $logger->warning("Collect in production");
     } else {
         $logger->info("Collect in development");
     }

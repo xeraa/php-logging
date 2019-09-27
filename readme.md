@@ -71,4 +71,3 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.0
 
 ### Todo
 
-* Monolog 2

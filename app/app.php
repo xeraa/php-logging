@@ -3,13 +3,11 @@
 require_once __DIR__."/vendor/autoload.php";
 
 use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
-use Elasticsearch\Client;
-use Elasticsearch\ClientBuilder;
-use Monolog\Formatter\LogstashFormatter;
-use Monolog\ElasticLogstashHandler;
 use Monolog\Formatter\JsonFormatter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\ElasticsearchHandler;
+use Elasticsearch\ClientBuilder;
 
 
 
@@ -29,12 +27,8 @@ $lineStream = new StreamHandler(__DIR__.'/logs/app.log', Logger::DEBUG);
 $lineStream->setFormatter($lineFormatter);
 
 // Create the Elasticsearch handler
-/** Too much coupling — we're skipping this one
 $elasticsearchClient = ClientBuilder::create()->setHosts(['http://elasticsearch:9200'])->build();
-$logstashFormatter = new LogstashFormatter('app', null, null, '', 1); //$applicationName, $systemName (default hostname), $extraPrefix, $contextPrefix, $version
-$elasticsearchHandler = new ElasticLogstashHandler($elasticsearchClient, ['index' => 'send']);
-$elasticsearchHandler->setFormatter($logstashFormatter);
-**/
+$elasticsearchHandler = new ElasticsearchHandler($elasticsearchClient, ['index' => 'send', 'type' => '_doc']);
 
 // Create the JSON handler
 $jsonFormatter = new JsonFormatter();
@@ -47,7 +41,7 @@ $stdoutStream->setFormatter($lineFormatter);
 
 // Now add some handlers
 $logger->pushHandler($lineStream);
-//$logger->pushHandler($elasticsearchHandler);
+//$logger->pushHandler($elasticsearchHandler); //Disable because the coupling is too tight
 $logger->pushHandler($jsonStream);
 $logger->pushHandler($stdoutStream);
 

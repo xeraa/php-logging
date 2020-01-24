@@ -56,6 +56,7 @@ $logger->pushHandler($stdoutStream);
 // Don't use MemoryUsageProcessor because it returns it with a unit (MB) and we want the raw number
 $logger->pushProcessor(function ($entry) {
     $entry['extra']['memory'] = memory_get_usage();
+    $entry['extra']['version'] = "1.0.0";
     return $entry;
 });
 

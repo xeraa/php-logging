@@ -47,7 +47,7 @@ $stdoutStream->setFormatter($lineFormatter);
 
 // Now add some handlers
 $logger->pushHandler($lineStream);
-//$logger->pushHandler($elasticsearchHandler); //Disable because the coupling is too tight
+//$logger->pushHandler($elasticsearchHandler); //Only enable if you want to see this fail; wait for Elasticsearch to start up and run with `$ docker restart php_app` again
 $logger->pushHandler($jsonStream);
 $logger->pushHandler($ecsStream);
 $logger->pushHandler($stdoutStream);

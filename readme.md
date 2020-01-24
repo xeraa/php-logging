@@ -35,16 +35,15 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.1
 1. How many log events should we have? 40. But we have 43 entries instead. Since only 42 would be the perfect number, something is wrong here.
 1. See the `_grokparsefailure` in the tag field. Enable the multiline rules in Filebeat. It should automatically
    refresh and when you run the application again, it should now only collect 40 events.
-1. Show that this works as expected now and drill down to the errors to see which emoji we are logging.
+1. Show that this works as expected now and drill down to the errors to see that emojis are working throughout the stack.
 1. Copy a log line and parse it with the Grok Debugger in Kibana, for example, with the pattern
    `^\[%{TIMESTAMP_ISO8601:timestamp}\]%{SPACE}\{"memory":%{NUMBER:memory}` — show
    [https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/grok-patterns](https://github.com/logstash-plugins/logstash-patterns-core/blob/master/patterns/grok-patterns)
    to get started. We can copy the rest of the pattern from *logstash.conf*.
-1. Point to [https://github.com/elastic/ecs](https://github.com/elastic/ecs) for the naming conventions.
 1. Show the Data Visualizer in Machine Learning by uploading the LOG file. The output is actually quite good already,
    but we are sticking to our manual rules for now.
 1. Find the log statements in Kibana's Discover view for the *parse* index.
-1. Show the pipeline in Kibana's Monitoring view and the other components in Monitoring.
+1. Show the Logstash pipeline in Kibana's Monitoring view and the other components in Monitoring.
 1. Create a vertical bar chart visualization on the `log.level` field.
 
 
@@ -56,14 +55,16 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.1
 
 ### Structure
 
-1. Run the application and show the data in the *structure* index.
+1. Run the application and show the data in the *structure* index and filter to `fields.application: "php"`.
 1. Show the PHP configuration for JSON, since it is a little more complicated than the others.
+1. Point to [https://github.com/elastic/ecs](https://github.com/elastic/ecs) for the naming conventions and its PHP implementation [https://github.com/elastic/ecs-logging-php](https://github.com/elastic/ecs-logging-php).
+1. Show the results in `fields.application: "php-ecs"` and discuss the deeper integrations including their tradeoff around more coupling.
 
 
 ### Containerize
 
 1. Show the metadata we are collecting now.
-1. Point to the ingest pipeline and show how everything is working.
+1. Point to the ingest pipeline and show how everything is tied together. Also discuss the need for Logstash and why many use-cases are fine with ingest nodes.
 1. Filter to down to `container.name : "php_app"` and point out the hinting that stops the multiline statements from being broken up.
 1. Point out how you could break up the output into two indices — *docker-\** and *docker-php-\**.
 1. Show the new Logs UI (adapt the pattern to match the right index).

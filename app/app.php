@@ -8,6 +8,7 @@ use Monolog\Formatter\JsonFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\ElasticsearchHandler;
 use Elasticsearch\ClientBuilder;
+use Elastic\Monolog\Formatter\ElasticCommonSchemaFormatter;
 
 
 
@@ -35,6 +36,11 @@ $jsonFormatter = new JsonFormatter();
 $jsonStream = new StreamHandler(__DIR__ . '/logs/app.json', Logger::DEBUG);
 $jsonStream->setFormatter($jsonFormatter, $dateFormat, false, true); //$includeStacktraces, $appendNewline
 
+// Create the ECS hanlder
+$ecsFormatter = new ElasticCommonSchemaFormatter();
+$ecsStream = new StreamHandler(__DIR__ . '/logs/ecs.json', Logger::DEBUG);
+$ecsStream->setFormatter($ecsFormatter);
+
 // Create the stdout handler, but reuse the log file formatter
 $stdoutStream = new StreamHandler('php://stdout', Logger::DEBUG);
 $stdoutStream->setFormatter($lineFormatter);
@@ -43,6 +49,7 @@ $stdoutStream->setFormatter($lineFormatter);
 $logger->pushHandler($lineStream);
 //$logger->pushHandler($elasticsearchHandler); //Disable because the coupling is too tight
 $logger->pushHandler($jsonStream);
+$logger->pushHandler($ecsStream);
 $logger->pushHandler($stdoutStream);
 
 // Add some extra info when logging

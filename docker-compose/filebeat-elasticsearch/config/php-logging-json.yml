@@ -1,8 +1,19 @@
 - type: log
   paths:
-    - /mnt/logs/*.json
+    - /mnt/logs/app.json
   json:
     message_key: message
     keys_under_root: true
+    overwrite_keys: true
   fields:
-    environment: production
+    application: php
+
+- type: log
+  paths:
+    - /mnt/logs/ecs.json
+  json:
+    message_key: message
+    keys_under_root: true
+    overwrite_keys: true
+  fields:
+    application: php-ecs

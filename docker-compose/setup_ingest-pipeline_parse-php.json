@@ -4,7 +4,7 @@
     {
       "grok": {
         "field": "message",
-        "patterns": [ "^\\[%{TIMESTAMP_ISO8601:@timestamp}\\]%{SPACE}\\{%{QUOTEDSTRING}:%{NUMBER:memory_usage}\\,%{SPACE}%{QUOTEDSTRING}:\"%{DATA:app_version}\"\\}%{SPACE}%{WORD:log.method}%{SPACE}\\.%{LOGLEVEL:log.level}%{SPACE}:%{SPACE}%{GREEDYDATA:message}(?:\\n+(?<stacktrace>(?:.|\\r|\\n)+))?" ],
+        "patterns": [ "^\\[%{TIMESTAMP_ISO8601:timestamp}\\]%{SPACE}\\{%{QUOTEDSTRING}:%{NUMBER:memory_usage}\\,%{SPACE}%{QUOTEDSTRING}:\"%{DATA:app_version}\"\\}%{SPACE}%{WORD:log.method}%{SPACE}\\.%{LOGLEVEL:log.level}%{SPACE}:%{SPACE}%{GREEDYDATA:message}(?:\\n+(?<stacktrace>(?:.|\\r|\\n)+))?" ],
         "ignore_failure": true
       }
     }

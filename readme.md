@@ -57,7 +57,7 @@ Run `$ docker run --rm --interactive --tty --volume $PWD/app:/app composer:1.9.1
 ### Structure
 
 1. Run the application and show the data in the *structure* index.
-1. Show the Logback configuration for JSON, since it is a little more complicated than the others.
+1. Show the PHP configuration for JSON, since it is a little more complicated than the others.
 
 
 ### Containerize

@@ -1,4 +1,4 @@
-FROM php:7.3.9-cli
+FROM php:7.4.2-cli
 COPY ./app /usr/src/app
 WORKDIR /usr/src/app
 CMD [ "php", "./app.php" ]

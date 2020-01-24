@@ -1,6 +1,7 @@
 {
     "require": {
-        "monolog/monolog": "2.0.0",
-        "elasticsearch/elasticsearch": "7.2.2"
+        "monolog/monolog": "2.0.2",
+        "elasticsearch/elasticsearch": "7.5.0",
+        "elastic/ecs-logging": "1.0.1"
     }
 }
